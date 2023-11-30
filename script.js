@@ -20,7 +20,9 @@ const players = [
 
 const fillTable = function(){
     // innerHTML och backticks `
-    for(let i = 0; i < players.length;i++) { // hrmmm you do foreach if you'd like much nices! I will show you in two weeks
+    for(let i = 0; i < players.length;i++) { // hrmmm you do foreach if you'd like, much nicer! 
+                                            // I will show you in two weeks
+                                            //  or for p of players     
         let trText = `<tr><th scope="row">${players[i].name}</th><td>${players[i].jersey}</td><td>${players[i].position}</td><td>${players[i].team}</td></tr>`
         allPlayersTBody.innerHTML += trText
     }
