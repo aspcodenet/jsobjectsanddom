@@ -1,4 +1,6 @@
 const allPlayersTBody = document.querySelector("#allPlayers tbody")
+const searchPlayer = document.getElementById("searchPlayer")
+const position = document.getElementById("position")
 
 function Player(id, name,jersey,team, position){
     this.id = id
@@ -18,18 +20,91 @@ const players = [
     new Player(5,"Jack Johnson",3,"Colorado","Defence"),
 ]
 
-const fillTable = function(){
-    // innerHTML och backticks `
-    for(let i = 0; i < players.length;i++) { // hrmmm you do foreach if you'd like, much nicer! 
-                                            // I will show you in two weeks
-                                            //  or for p of players     
-        let trText = `<tr><th scope="row">${players[i].name}</th><td>${players[i].jersey}</td><td>${players[i].position}</td><td>${players[i].team}</td></tr>`
-        allPlayersTBody.innerHTML += trText
+// "change" -> triggas när man LÄMNAR rutan
+// keypress, keyup
+searchPlayer.addEventListener("input", function() {
+    const searchFor = searchPlayer.value.toLowerCase() 
+    for(let i = 0; i < players.length;i++){ // TODO add a matches function
+        if(players[i].name.toLowerCase().includes(searchFor) || players[i].position.toLowerCase().includes(searchFor) || players[i].team.toLowerCase().includes(searchFor) ){
+            players[i].visible = true                            
+        }else{
+            players[i].visible = false 
+        }
     }
+    updateTable()
+
+});
+
+
+const updateTable = function(){
+    // while(allPlayersTBody.firstChild)
+    //     allPlayersTBody.firstChild.remove()
+    allPlayersTBody.innerHTML = ""
+
+    // först ta bort alla children
+    for(let i = 0; i < players.length;i++) { // hrmmm you do foreach if you'd like, much nicer! 
+        if(players[i].visible == false){
+            continue
+        }
+        let tr = document.createElement("tr")
+
+        let th = document.createElement("th")
+        th.scope = "row"
+        th.textContent = players[i].name
+        tr.appendChild(th)
+
+        let td = document.createElement("td")
+        td.textContent = players[i].jersey
+        tr.appendChild(td)
+
+        td = document.createElement("td")
+        td.textContent = players[i].position
+        tr.appendChild(td)
+
+        td = document.createElement("td")
+        td.textContent = players[i].team
+        tr.appendChild(td)
+
+
+
+
+
+        allPlayersTBody.appendChild(tr)
+    }
+
+    // innerHTML och backticks `
+    // Problem - aldrig bra att bygga strängar som innehåller/kan innehålla html
+    //    injection
+    // for(let i = 0; i < players.length;i++) { // hrmmm you do foreach if you'd like, much nicer! 
+    //                                         // I will show you in two weeks
+    //                                         //  or for p of players     
+    //     let trText = `<tr><th scope="row">${players[i].name}</th><td>${players[i].jersey}</td><td>${players[i].position}</td><td>${players[i].team}</td></tr>`
+    //     allPlayersTBody.innerHTML += trText
+    // }
     // createElement
 }
 
-fillTable()
+
+const fillOptions = function(){
+    let opt = document.createElement('option');
+    opt.value = "Defence";
+    opt.innerText = "Defence2";
+    position.appendChild(opt);
+    
+    opt = document.createElement('option');
+    opt.value = "Forward";
+    opt.innerText = "Forward";
+    position.appendChild(opt);
+
+    opt = document.createElement('option');
+    opt.value = "Goalie";
+    opt.innerText = "Goalie";
+    position.appendChild(opt);
+
+}
+
+fillOptions()
+updateTable()
 
 
 
