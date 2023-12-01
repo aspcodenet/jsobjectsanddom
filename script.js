@@ -2,6 +2,7 @@ const kategori = document.getElementById("kategori")
 const sak = document.getElementById("sak")
 const wish = document.getElementById("wish")
 const lightrope = document.getElementById("lightrope")
+const hunden  = document.getElementById("hunden")
 
 const Product = function(name,category){
     this.name = name
@@ -21,9 +22,76 @@ const products=[
 // skulle kunna loopa igenom och skapa en ny array med UNIKA kategories
 //men mer modernt 
 const uniqueCategories = [...new Set(products.map(function(item){return item.category}))];
-uniqueCategories.forEach(catNamn=>{
+uniqueCategories.forEach(function(catNamn){
     kategori.add(new Option(catNamn))
 })
+
+
+const onFocusWish =  function(){
+    lightrope.style.display = "block";
+}
+const onBlurWish =  function(){
+    lightrope.style.display = "none";
+}
+
+const onChangeWish = function(){
+    alert("Hej")
+}
+
+
+const onInputWish = function(){
+    const inmatningen = wish.value.toLowerCase()    
+    if(inmatningen.includes("hund")){
+        hunden.style.display="block";
+    } else{
+        hunden.style.display="none";
+    }
+}
+
+const onKategoriChange = function(){
+    sak.innerHTML = "" // rensa alla options
+
+
+    let matchingProducts = products.filter(c=>c.category === kategori.value)
+    matchingProducts.forEach(item=>{
+        let opt = document.createElement('option');
+        opt.innerText = item.name;
+        sak.appendChild(opt);    
+    });
+
+    // let opt = document.createElement('option');
+    // opt.value = "Defence";
+    // opt.innerText = "Defence2";
+    // sak.appendChild(opt);    
+}
+
+kategori.addEventListener("change",onKategoriChange)
+
+wish.addEventListener("focus",onFocusWish)
+wish.addEventListener("blur",onBlurWish)
+//wish.addEventListener("change",onChangeWish)
+wish.addEventListener("input",onInputWish)
+
+kategori.dispatchEvent(new Event('change'))
+//onKategoriChange() - SAMMA FUNKAR LIKA BRA!!
+
+/*
+-addEventListener
+			vad finns? "click"
+		
+`			click - when the element clicked
+			dbclick - when the element double clicked
+			mouseout -when the mouse pointer out from the element
+			change -when value change on input field
+            input - när en input blivit ändrad - vid "keypress"
+			blur -when the element is not focused
+            focus - 
+			keydown - when a key is down
+			keyup - when a key is up
+			keypress - when we press any key
+
+
+*/
 
 
 
